@@ -31,12 +31,9 @@ service 'logentries' do
 end
 
 if node['logentries']
-  Chef::Application.fatal!("Missing logentries server_name.") unless node['logentries']['server_name']
-  Chef::Application.fatal!("Missing logentries account_key.") unless node['logentries']['account_key']
-
   logentries do
     account_key node['logentries']['account_key']
-    server_name node['logentries']['server_name']
+    server_name node['logentries']['server_name'] ? node['logentries']['server_name'] : node[:name]
 
     action :register
   end
